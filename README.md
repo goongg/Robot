@@ -53,15 +53,41 @@ H | H : 브레이크 <br>
 - **IN_A1 GPIO 18 (PWM0) Port 12.**<br>
 - **IN_A2 GPIO 17        Port 11.**<br>
 <br>
-- **IN_B1 GPIO 13 (PWM1) Port 33.**<br>
-- **IN_B2 GPIO 19        Port 35.**<br>
+- **IN_B1 GPIO 13 (PWM1) Port 33.** <br>
+- **IN_B2 GPIO 19        Port 35.** <br>
 <br>
 
 
-아래 명령어로 활성화된 PWM 포트를 확인하고 node를 통해 접근할 수 있도록 export 해보자
+일단 boot config에 PWM Chip을 활성화 해야한다.
+활성화 하는 방법은 아래와 같음.
+```
+Now its just a matter of putting the appropriate dtoverlay line into /boot/config.txt:
 
+A single PWM uses a command like ‘dtoverlay=pwm,pin=#,func=#’
+eg PWM0 on GPIO18 for a rPi A
 
+dtoverlay=pwm,pin=18,func=2
+To setup 2 PWMs use a command like ‘dtoverlay=pwm-2chan,pin=#,func=#,pin2=#,func2=#’
+eg PWM0 on GPIO12 & PWM1 on GPIO13 for a rPi2 B
 
+dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4
+FYI: This is all documented in /boot/overlays/README.
+```
+이걸 하면
+/sys/class/pwm/ 에 pwmchip0이 생긴걸 확인할 수 있다.
+
+이제 expert 명령어로 pwm 체널에 대한 세팅을 할 수 있음.
+```
+root@raspberrypi:/# cd/sys/class/pwm/pwmchip0/
+root@raspberrypi:/sys/class/pwm/pwmchip0/# echo 0 > export
+root@raspberrypi:/sys/class/pwm/pwmchip0/# cd pwm0
+root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1000000 > period
+root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1000000 > duty_cycle 
+root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1 > enable
+```
+
+모터 드라이버에 연결한 다음에 속도를 조절해보자.
+period를 조절하면서 속도를 조정해보자.
 
 - PWM Output
 - Robot Platform DC Modoter Driver Conect
