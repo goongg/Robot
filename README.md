@@ -85,9 +85,10 @@ root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1000000 > period
 root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1000000 > duty_cycle 
 root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1 > enable
 ```
+OK.
 
-모터 드라이버에 연결한 다음에 속도를 조절해보자.
-period를 조절하면서 속도를 조정해보자.
+이제 지금까지 세팅한
+
 
 - PWM Output
 - Robot Platform DC Modoter Driver Conect
