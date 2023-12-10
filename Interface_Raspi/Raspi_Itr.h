@@ -11,5 +11,5 @@
 #endif // #define RASPI_ITR_H
 
 extern void Raspi_PortSetup(void);
-extern int setGPIOValue(int pin, int value);
-extern int setPWMDutyCycle(int pwm, int dutyCycle);
+extern int  Raspi_setGPIOValue(int pin, int value);
+extern int  Raspi_setPWMDutyCycle(int pwm, int dutyCycle);

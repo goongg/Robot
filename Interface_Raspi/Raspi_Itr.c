@@ -4,7 +4,7 @@
 #include <stdlib.h> /* atoi() */
 #include <unistd.h> /* close() */
 #include "Raspi_Itr.h"
-
+#include "error.h"
 /* Local Macro */
 #define BUILD_OPT_PI 0
 #define BUILD_OPT_PC 1
@@ -53,7 +53,7 @@ void Raspi_PortSetup(void)
 	(void)enablePWM(PWM_CHENNEL_1);
 }
 
-int setGPIOValue(int pin, int value) {
+int Raspi_setGPIOValue(int pin, int value) {
     int fd, len;
     char buf[MAX_BUF];
 
@@ -72,8 +72,7 @@ int setGPIOValue(int pin, int value) {
     return 0;
 }
 
-
-int setPWMDutyCycle(int pwm, int dutyCycle) {
+int Raspi_setPWMDutyCycle(int pwm, int dutyCycle) {
     int fd, len;
     char buf[MAX_BUF];
 

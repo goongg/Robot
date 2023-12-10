@@ -94,6 +94,12 @@ OK.
 이제는 C코드로 이 동작들을 수행하는 인터페이스 함수를 설계한다.
 라즈베리파이 커널 파일을 건드리는 함수는 전부 Raspi_Itr.c 쪽에 설계하도록 한다.
 
+일단 Raspi_
+```
+extern void Raspi_PortSetup(void);
+extern int setGPIOValue(int pin, int value);
+extern int setPWMDutyCycle(int pwm, int dutyCycle);
+```
 
 - PWM Output
 - Robot Platform DC Modoter Driver Conect
