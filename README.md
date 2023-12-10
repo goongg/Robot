@@ -3,6 +3,7 @@
       - [**23.12.08 기본 GPIO 제어 및 PWM 제어**](#231208-기본-gpio-제어-및-pwm-제어)
         - [**GPIO TEST**](#gpio-test)
         - [**PWM TEST**](#pwm-test)
+      - [**23.12.10 라즈베리파이 Interface 설계**](#231210-라즈베리파이-interface-설계)
   - [Controller](#controller)
   - [Pan Tilt Camera](#pan-tilt-camera)
 
@@ -87,7 +88,11 @@ root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1 > enable
 ```
 OK.
 
-이제 지금까지 세팅한
+#### **23.12.10 라즈베리파이 Interface 설계**
+
+지금까지 sysfs로 PWM을 돌리는걸 체크 해봤다.
+이제는 C코드로 이 동작들을 수행하는 인터페이스 함수를 설계한다.
+라즈베리파이 커널 파일을 건드리는 함수는 전부 Raspi_Itr.c 쪽에 설계하도록 한다.
 
 
 - PWM Output
