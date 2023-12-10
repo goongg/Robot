@@ -3,12 +3,14 @@
 #include <fcntl.h>
 #include <stdlib.h> /* atoi() */
 #include <unistd.h> /* close() */
+#include <errno.h>
+
 #include "Raspi_Itr.h"
 #include "error.h"
 /* Local Macro */
 #define BUILD_OPT_PI 0
 #define BUILD_OPT_PC 1
-#define BUILD_OPT BUILD_OPT_PC
+#define BUILD_OPT BUILD_OPT_PI
 
 #if BUILD_OPT == BUILD_OPT_PI
 	#define SYSFS_GPIO_DIR "/sys/class/gpio"
