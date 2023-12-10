@@ -7,15 +7,13 @@
 
 #include "Raspi_Itr.h"
 #include "error.h"
-/* Local Macro */
-#define BUILD_OPT_PI 0
-#define BUILD_OPT_PC 1
-#define BUILD_OPT BUILD_OPT_PI
+#include "../GlobalFeature.h"
 
+/* Local Macro */
 #if BUILD_OPT == BUILD_OPT_PI
 	#define SYSFS_GPIO_DIR "/sys/class/gpio"
 	#define SYSFS_PWM_DIR "/sys/class/pwm"
-#elif BUILD_OPT == BUILD_OPT_PC
+#elif BUILD_OPT == BUILD_OPT_WINDOW
 	#define SYSFS_GPIO_DIR "../"
 	#define SYSFS_PWM_DIR "../"
 #endif
