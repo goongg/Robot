@@ -243,6 +243,13 @@ int main()
                 Raspi_setGPIOValue(PROT_INT_B1, 0);
                 Raspi_setGPIOValue(PROT_INT_B2, 1);            
             break;
+            case 'X':
+                Raspi_setGPIOValue(PROT_INT_A1, 0);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 0);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);            
+            break;            
         }
     }
 
