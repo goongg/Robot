@@ -51,6 +51,8 @@ void Raspi_PortSetup(void)
 	(void)exportGPIO(PROT_INT_B2);
 	(void)setGPIODirection(PROT_INT_B2, SET_DIRECITON_OUT);
 
+	(void)exportPWM(PWM_CHENNEL_0);
+	(void)enablePWM(PWM_CHENNEL_0);
 
 	(void)exportPWM(PWM_CHENNEL_1);
 	(void)enablePWM(PWM_CHENNEL_1);
@@ -242,7 +244,6 @@ static int enablePWM(int pwm)
     int fd, len;
     char buf[MAX_BUF];
 
-    // enable 파일 열기
     snprintf(buf, sizeof(buf), SYSFS_PWM_DIR "/pwmchip0/pwm%d/enable", pwm);
     fd = open(buf, O_WRONLY);
     if (fd < 0) {
@@ -250,11 +251,9 @@ static int enablePWM(int pwm)
         return fd;
     }
 
-    // enable 쓰기
     len = snprintf(buf, sizeof(buf), "1");
     write(fd, buf, len);
 
-    // 파일 닫기
     close(fd);
 
     return 0;
@@ -263,4 +262,40 @@ static int enablePWM(int pwm)
 int main()
 {
 	Raspi_PortSetup();
+
+    while(1)
+    {
+        char c = getchar();
+        switch(c)
+        {
+            case 'W': 
+                Raspi_setGPIOValue(PROT_INT_A1, 1);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 1);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);            
+            break;
+            case 'D':
+                Raspi_setGPIOValue(PROT_INT_A1, 0);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 1);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);            
+            break;
+            case 'R':
+                Raspi_setGPIOValue(PROT_INT_A1, 1);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 0);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);            
+            break;
+            case 'S':
+                Raspi_setGPIOValue(PROT_INT_A1, 0);
+                Raspi_setGPIOValue(PROT_INT_A2, 1);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 0);
+                Raspi_setGPIOValue(PROT_INT_B2, 1);            
+            break;
+        }
+    }
 }
