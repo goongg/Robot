@@ -222,14 +222,14 @@ int main()
                 Raspi_setGPIOValue(PROT_INT_B1, 1);
                 Raspi_setGPIOValue(PROT_INT_B2, 0);            
             break;
-            case 'D':
+            case 'A':
                 Raspi_setGPIOValue(PROT_INT_A1, 0);
                 Raspi_setGPIOValue(PROT_INT_A2, 0);
 
                 Raspi_setGPIOValue(PROT_INT_B1, 1);
                 Raspi_setGPIOValue(PROT_INT_B2, 0);            
             break;
-            case 'R':
+            case 'D':
                 Raspi_setGPIOValue(PROT_INT_A1, 1);
                 Raspi_setGPIOValue(PROT_INT_A2, 0);
 
