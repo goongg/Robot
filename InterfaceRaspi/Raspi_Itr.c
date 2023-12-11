@@ -11,8 +11,13 @@
 
 /* Local Macro */
 #if BUILD_OPT == BUILD_OPT_PI
+    #include <gpiod.h>
+#endif
+
+/* Local Macro */
+#if BUILD_OPT == BUILD_OPT_PI
 	#define SYSFS_GPIO_DIR "/sys/class/gpio"
-	#define SYSFS_PWM_DIR "/sys/class/pwm"
+	#define SYSFS_PWM_DIR "/sys/class/pwm"    
 #elif BUILD_OPT == BUILD_OPT_WINDOW
 	#define SYSFS_GPIO_DIR "../"
 	#define SYSFS_PWM_DIR "../"
@@ -24,10 +29,11 @@
 #define E_OK 0
 #define PWM_CHENNEL_0 0
 #define PWM_CHENNEL_1 1
+#define SET_DIRECITON_OUT 1
 
 /* Local Function */
 static int exportGPIO(int pin);
-static int setGPIODirection(int pin, const char *direction);
+static int setGPIODirection(int pin, int output);
 
 static int setPWMPeriod(int pwm, int period);
 static int exportPWM(int pwm);
@@ -37,38 +43,55 @@ static int enablePWM(int pwm);
 void Raspi_PortSetup(void)
 {	
 	(void)exportGPIO(PROT_INT_A1);
-	(void)setGPIODirection(PROT_INT_A1, "out");
+	(void)setGPIODirection(PROT_INT_A1, SET_DIRECITON_OUT);
 	(void)exportGPIO(PROT_INT_A2);
-	(void)setGPIODirection(PROT_INT_A2, "out");
+	(void)setGPIODirection(PROT_INT_A2, SET_DIRECITON_OUT);
 	(void)exportGPIO(PROT_INT_B1);
-	(void)setGPIODirection(PROT_INT_B1, "out");
+	(void)setGPIODirection(PROT_INT_B1, SET_DIRECITON_OUT);
 	(void)exportGPIO(PROT_INT_B2);
-	(void)setGPIODirection(PROT_INT_B2, "out");
+	(void)setGPIODirection(PROT_INT_B2, SET_DIRECITON_OUT);
 
-
-	(void)exportPWM(PWM_CHENNEL_0);
-	(void)enablePWM(PWM_CHENNEL_0);
 
 	(void)exportPWM(PWM_CHENNEL_1);
 	(void)enablePWM(PWM_CHENNEL_1);
 }
 
 int Raspi_setGPIOValue(int pin, int value) {
-    int fd, len;
-    char buf[MAX_BUF];
+#if BUILD_OPT == BUILD_OPT_PI
+    struct gpiod_chip *chip;
+    struct gpiod_line *line;
 
-    snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/value", pin);
-    fd = open(buf, O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "Can't open GPIO %d value file: %s\n", pin, strerror(errno));
-        return fd;
+    chip = gpiod_chip_open("/dev/gpiochip0");
+    if (!chip) 
+    {
+        perror("GPIO 칩 열기 실패");
+        return -1;
     }
 
-    len = snprintf(buf, sizeof(buf), "%d", value);
-    write(fd, buf, len);
+    line = gpiod_chip_get_line(chip, pin);
+    if (!line) 
+    {
+        perror("GPIO 라인 얻기 실패");
+        gpiod_chip_close(chip);
+        return -1;
+    }
 
-    close(fd);
+    if (value) {
+        if (gpiod_line_request_output(line, "Robot_Pi", 0) < 0) {
+            perror("GPIO 방향 설정 실패");
+            gpiod_chip_close(chip);
+            return -1;
+        }
+    } else {
+        if (gpiod_line_request_input(line, "Robot_Pi") < 0) {
+            perror("GPIO 방향 설정 실패");
+            gpiod_chip_close(chip);
+            return -1;
+        }
+    }
 
+    gpiod_chip_close(chip);
+#endif
     return 0;
 }
 
@@ -93,46 +116,77 @@ int Raspi_setPWMDutyCycle(int pwm, int dutyCycle) {
 
 
 /* Local Function */
-static int exportGPIO(int pin) {
-    int fd, len;
-    char buf[MAX_BUF];
+static int exportGPIO(int pin) 
+{
+#if BUILD_OPT == BUILD_OPT_PI
+    struct gpiod_chip *chip;
+    struct gpiod_line *line;
 
-    snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d", pin);
-    if (access(buf, F_OK) != -1) {
-        fprintf(stderr, "GPIO %d is already exported\n", pin);
+    chip = gpiod_chip_open("/dev/gpiochip0");
+    if (!chip) {
+        perror("Error opening GPIO chip");
+        return -1;
+    }
+
+    line = gpiod_chip_get_line(chip, pin);
+    if (!line) {
+        perror("Error getting GPIO line");
+        gpiod_chip_close(chip);
+        return -1;
+    }
+
+    // Check if the line is already requested
+    if (gpiod_line_is_requested(line)) {
+        gpiod_chip_close(chip);
         return 0;
     }
 
-    fd = open(SYSFS_GPIO_DIR "/export", O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "Can't export GPIO %d pin: %s\n", pin, strerror(errno));
-        return fd;
+    if (gpiod_line_request_output(line, "Robot_Pi", 0) < 0) {
+        perror("Error exporting GPIO");
+        gpiod_chip_close(chip);
+        return -1;
     }
 
-    len = snprintf(buf, sizeof(buf), "%d", pin);
-    write(fd, buf, len);
-
-    close(fd);
-
+    gpiod_chip_close(chip);
+#endif
     return 0;
 }
 
-static int setGPIODirection(int pin, const char *direction) {
-    int fd, len;
-    char buf[MAX_BUF];
+static int setGPIODirection(int pin, int output) 
+{
+#if BUILD_OPT == BUILD_OPT_PI
+    struct gpiod_chip *chip;
+    struct gpiod_line *line;
 
-    snprintf(buf, sizeof(buf), SYSFS_GPIO_DIR "/gpio%d/direction", pin);
-    fd = open(buf, O_WRONLY);
-    if (fd < 0) {
-        fprintf(stderr, "Can't open GPIO %d direction file: %s\n", pin, strerror(errno));
-        return fd;
+    chip = gpiod_chip_open("/dev/gpiochip0");
+    if (!chip) {
+        perror("Error opening GPIO chip");
+        return -1;
     }
 
-    len = snprintf(buf, sizeof(buf), "%s", direction);
-    write(fd, buf, len);
+    line = gpiod_chip_get_line(chip, pin);
+    if (!line) {
+        perror("Error getting GPIO line");
+        gpiod_chip_close(chip);
+        return -1;
+    }
 
-    close(fd);
+    if (output) {
+        if (gpiod_line_request_output(line, "Robot_Pi", 0) < 0) {
+            perror("Error setting GPIO direction");
+            gpiod_chip_close(chip);
+            return -1;
+        }
+    } else {
+        if (gpiod_line_request_input(line, "Robot_Pi") < 0) {
+            perror("Error setting GPIO direction");
+            gpiod_chip_close(chip);
+            return -1;
+        }
+    }
 
+    gpiod_chip_close(chip);
+#endif
     return 0;
 }
 
