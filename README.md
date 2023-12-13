@@ -3,7 +3,8 @@
       - [**23.12.08 기본 GPIO 제어 및 PWM 제어**](#231208-기본-gpio-제어-및-pwm-제어)
         - [**GPIO TEST**](#gpio-test)
         - [**PWM TEST**](#pwm-test)
-      - [**23.12.10 라즈베리파이 Interface 설계**](#231210-라즈베리파이-interface-설계)
+      - [**23.12.13 라즈베리파이 Interface 설계**](#231213-라즈베리파이-interface-설계)
+  - [Coding Rule](#coding-rule)
   - [Controller](#controller)
   - [Pan Tilt Camera](#pan-tilt-camera)
 
@@ -15,11 +16,9 @@
 #### **23.12.08 기본 GPIO 제어 및 PWM 제어**
 
 ##### **GPIO TEST**
-WiringPi를 사용하는것에 대해서는 많은 예제가 있지만 MCU에서처럼 직접 레지스터를 제어하거나, 파일 디스크립터에 접근해서 수정하여 제어하는 방법에 대해서는 그닥 많은정보가 있진 않은것 같다.
-
-게다가 구글링을 좀 해보니 Arm 64 아키텍쳐에서는 Wiring pi를 제공하지 않는것 같다.
-cat /proc/device-tree/model 을 치면 모델명이 확인 가능하다. <BR> <br>
-내가 가진 모델은: Raspberry Pi 4 Model B Rev 1.2
+WiringPi는 이제 더 이상 지원되지 않음으로 사용할 수 없다.
+libgpiod 등 다양한 방법이 있으나, <br>
+어쨌거나 이번 프로젝트에서 PWM 등 다양한 로직을 같이 써야되므로 결국 sysfs를 사용하는것으로 결정하자. (추후 MCU처럼 레지스터를 직접 제어하는 방법도 시도해보자)
 
 우선 /sys/class/gpio/ 에 파일스크립터를 통해서 제어해보자.
 
@@ -46,9 +45,6 @@ H | H : 브레이크 <br>
 ##### **PWM TEST**
 
 라즈베리파이의 출력전압은 3.3V 이고, 모터드라이버의 입력 전원은 5v이다. 모터드러이버 논리 H에 3.3V 사용가능하기 때문에 모터드라이버에 각 라인을 할당에서 그냥 넣어주면 된다.
-
-아근데 아쉬운게 PWM 포트가 두개 뿐이다.
-아쉽지만, 후진의 경우 GPIO O으로 자체 PWM을 만든다음.. 느리게 구현해야할지도 모르겠다. 일단 TBD로 남겨두자. <br>
 
 핀할당은 32번과 33번을 사용하기로 하자. <br>
 - **IN_A1 GPIO 18 (PWM0) Port 12.**<br>
@@ -88,22 +84,96 @@ root@raspberrypi:/sys/class/pwm/pwmchip0/pwm0# echo 1 > enable
 ```
 OK.
 
-#### **23.12.10 라즈베리파이 Interface 설계**
+#### **23.12.13 라즈베리파이 Interface 설계**
+우선 기능을 모두 cpp로 구현하기로 하자. 공부한 SOLID 원칙을 최대한 적용하고 실습해보자.
 
-지금까지 sysfs로 PWM을 돌리는걸 체크 해봤다.
-이제는 C코드로 이 동작들을 수행하는 인터페이스 함수를 설계한다.
-라즈베리파이 커널 파일을 건드리는 함수는 전부 Raspi_Itr.c 쪽에 설계하도록 한다.
+우선 파일 / 폴더구조와 함수명 규칙을 정해보자
 
-일단 Raspi_
+## Coding Rule
+[파일명]
+1. 파일명은 모두 소문자로
+2. 프로젝트의 소스코드는 프로젝트와 동일한 이름의 디렉토리에 배치
+3. #include 는 모두 <>로 쓰고 인크루드 페스를
+4. 컴파일 옵션에 인크루드 페쓰 추가
+
+[타입명]
+1. 타입명은 모두 대문자로
+2. 새 단어마다 대문자 사용
+3. 언더스코어는 사용하지 않음
+4. 모든 타입은 동일한 명명법 사용
+5. 굳이 축약어 쓰진 말자
+
+[일단 만들어야 하는 Class]
+1. 라즈베리파이 sysfs 컨트롤 gpio / pwm  등.
+2. 모터제어 알고리즘
+3. Xinput 등 컨트롤러 제어
+4. 카메라 모션 제어 알고리즘
+5. 동영상 스트리밍 
+
+
+그리고 여기서 모터제어 Class의 경우 플랫폼의 GPIO 세팅에 의존해야한다.<br>
+**이걸 추상화 클레스와 인터페이스로 설계하도록하자.**
+
+우선 폴더 트리를 만들었다.<br>
+-- /Camera/Camera.cpp & h <br>
+-- /Motor/Motor.cpp & h <br>
+-- /RaspSysfs/RaspSysfs.cpp & h <br>
+-- /Controller/Controller.cpp & h <br>
+
+-- ../Main.cpp<br>
+
+여기서 모터제어와 카메라제어 그리고 컨트롤러 인풋 체크는
+주기적으로 수행되어야 하므로 생성자에 주기 thread를 생성.
+
+우선 설계된 클레스는 아래와 같다.
+
+```c++
+class RaspSysfs
+{
+    public:
+        RaspSysfs();
+        ~RaspSysfs();    
+        void setGPIOValue(int pin, int value);
+        void setPwmDutyCycle(int pwm, int dutyCycle);
+
+    private:
+        void initPort(void);
+        void exportGPIO(int pin);
+        void setGPIODirection(int pin, const char *direction);
+        void setPWMPeriod(int pwm, int period);
+        void exportPWM(int pwm);
+        void enablePWM(int pwm);
+};
+
+
+class Motor
+{
+    public:
+        Motor();
+        Motor(void (*_setPinVal)(int,int), void (*_setPwmDutyCycle)(int,int));
+        ~Motor();
+        void move(int direct[8], int Speed);
+        void *setPinValue(int pin, int value);
+        void *setPwmDutyCycle(int pwm, int dutyCycle);
+};
+
+class Controller {
+public:
+    Controller();
+    ~Controller();
+    void getKeystate(int *output);
+private:
+    int ButtonState[4];
+    pthread_t thread_;
+    static void* thread_Controller1ms(void* arg);
+};
+
 ```
-extern void Raspi_PortSetup(void);
-extern int setGPIOValue(int pin, int value);
-extern int setPWMDutyCycle(int pwm, int dutyCycle);
-```
 
-- PWM Output
-- Robot Platform DC Modoter Driver Conect
-- Make Motor Control Task
+
+각 Class 들은 독립적으로 빌드가 가능하다.
+우선 인터페이스 Class 는 설계실패했는디.. 우선 조금 더공부해서 다음에 수정하기로 하자.
+
 
 
 ## Controller
@@ -112,4 +182,4 @@ extern int setPWMDutyCycle(int pwm, int dutyCycle);
 - Make Controller Reciver Task
 
 ## Pan Tilt Camera
-우선 라즈베리파이 4에는 PWM Out이 없어서 Pan Tilt 카메라의 사용이 불가능하다. 보류로 해둔다.
+우선 라즈베리파이 4에는 PWM Out이 없어서 Pan Tilt 메라의 사용이 불가능하다. 보류로 해둔다.카
