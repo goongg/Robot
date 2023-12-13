@@ -8,8 +8,9 @@
 #define PROT_INT_B2 21   //GPIO21      Pin11
 
 
-#endif // #define RASPI_ITR_H
 
 extern void Raspi_PortSetup(void);
 extern int  Raspi_setGPIOValue(int pin, int value);
 extern int  Raspi_setPWMDutyCycle(int pwm, int dutyCycle);
+#endif // #define RASPI_ITR_H
+

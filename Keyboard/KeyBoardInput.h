@@ -6,9 +6,15 @@
 #define STATE_R 1
 #define STATE_L 2
 #define STATE_D 3
+#include "../GlobalFeature.h"
 
 #if BUILD_OPT == BUILD_OPT_PI
     #include <pthread.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <linux/input.h>
 
 class KeyboardInput {
 public:
@@ -27,7 +33,6 @@ private:
 #if BUILD_OPT == BUILD_OPT_WINDOW
 #include <windows.h>
 #include <mutex>
-#include "../GlobalFeature.h"
 
 class KeyboardInput
 {

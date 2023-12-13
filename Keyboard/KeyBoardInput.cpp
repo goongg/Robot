@@ -1,43 +1,60 @@
-#include "KeyboardInput.h"
+#include "KeyBoardInput.h"
+#include <iostream>
 
 #if BUILD_OPT == BUILD_OPT_PI
-#include <ev.h>
 KeyboardInput::KeyboardInput()
 {
     int result = pthread_create(&thread_, NULL, &KeyboardInput::CheckKey_thread, this);
-    if (result != 0) {
-        std::cerr << "Failed to create thread: " << strerror(result) << std::endl;
+    if (result != 0) 
+    {
+          perror("Failed to create thread: ");
     }
-    while(1);
 }
 KeyboardInput::~KeyboardInput() {
     pthread_join(thread_, NULL);
 }
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
+
 void* KeyboardInput::CheckKey_thread(void* arg) {
+
     KeyboardInput* instance = static_cast<KeyboardInput*>(arg);
-    while (1) {
-        // 1ms 대기
-        usleep(1000);
-        char buf[10];
-        ssize_t n = read(0, buf, sizeof(buf) - 1);
-        if (n > 0) 
-        {
-            buf[n] = '\0';
-            for(int i =0; i<4; i++)
-                KeyboardState[i]=0;
 
-            if (buf[0] == 'W') KeyboardState[STATE_U]=1;
-            else if (buf[0] == 'A') KeyboardState[STATE_L]=1;
-            else if (buf[0] == 'D') KeyboardState[STATE_R]=1;
-            else if (buf[0] == 'S') KeyboardState[STATE_D]=1;
-
-            if (n > 1) {
-                if (buf[1] == 'W') KeyboardState[STATE_U]=1;
-                else if (buf[1] == 'A') KeyboardState[STATE_L]=1;
-                else if (buf[1] == 'D') KeyboardState[STATE_R]=1;
-                else if (buf[1] == 'S') KeyboardState[STATE_D]=1;
-            }
-        }  
+   	char c;
+	struct termios term;
+    
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ICANON;    // non-canonical input ����
+	term.c_lflag &= ~ECHO;      // �Է� �� �͹̳ο� ������ �ʰ�
+	term.c_cc[VMIN] = 1;        // �ּ� �Է� ���� ũ��
+	term.c_cc[VTIME] = 0;       //���� ���� �ð� (timeout)
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+    
+	while (read(0, &c, sizeof(c)) > 0)
+	{
+		printf("input: %c\n", c);
+        for (int i = 0; i < 4; ++i) {        
+            instance->KeyboardState[i]=0;
+        }
+        
+        if (c == 'W'){
+           instance->KeyboardState[STATE_U]=1;
+            std::cout << "W\n";
+        }
+        if (c == 'D'){
+            instance->KeyboardState[STATE_R]=1;
+            std::cout << "D\n";
+        }
+        if (c == 'A'){
+            instance->KeyboardState[STATE_L]=1;
+            std::cout << "A\n";
+        }
+        if (c == 'S'){
+            instance->KeyboardState[STATE_D]=1;
+            std::cout << "S\n";
+        }        
+        usleep(1000);        
     }
 }
 #endif
@@ -94,7 +111,47 @@ DWORD WINAPI KeyboardInput::CheckKey_thread(LPVOID lpParam)
 }
 #endif
 
+
+#include "../InterfaceRaspi/Raspi_Itr.h"
 int main()
 {
-    KeyboardInput t;
+     KeyboardInput KeyboardInput;
+
+	Raspi_PortSetup();
+    while(1)
+    {
+        usleep(1000);   
+        if(KeyboardInput.KeyboardState[STATE_U]==1)
+        {
+                Raspi_setGPIOValue(PROT_INT_A1, 1);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 1);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);
+        }
+        if(KeyboardInput.KeyboardState[STATE_L]==1){
+                Raspi_setGPIOValue(PROT_INT_A1, 0);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 1);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);            
+        }
+        if(KeyboardInput.KeyboardState[STATE_R]==1){
+
+                Raspi_setGPIOValue(PROT_INT_A1, 1);
+                Raspi_setGPIOValue(PROT_INT_A2, 0);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 0);
+                Raspi_setGPIOValue(PROT_INT_B2, 0);            
+        }
+        if(KeyboardInput.KeyboardState[STATE_D]==1){        
+  
+                Raspi_setGPIOValue(PROT_INT_A1, 0);
+                Raspi_setGPIOValue(PROT_INT_A2, 1);
+
+                Raspi_setGPIOValue(PROT_INT_B1, 0);
+                Raspi_setGPIOValue(PROT_INT_B2, 1);    
+        }        
+    }
+
 }
