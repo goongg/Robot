@@ -5,8 +5,8 @@
 class iController 
 {
     public:
-        virtual unsigned short getBottrnState()=0;
-        virtual void getJoyStickState(int* posX, int* posY) =0;
+        virtual unsigned short getButtonState()=0;
+        virtual void getJoystickState(int* posX, int* posY) =0;
     private:
 };
 

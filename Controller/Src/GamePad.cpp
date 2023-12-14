@@ -36,7 +36,7 @@ GamePad::GamePad(){
 GamePad::~GamePad(){
 }
 
-unsigned short GamePad::getBottrnState()
+unsigned short GamePad::getButtonState()
 {
     for(int i =0; i<10; i++)
     {
@@ -49,7 +49,7 @@ unsigned short GamePad::getBottrnState()
     return 0;
 }
 
-void GamePad::getJoyStickState(int* posX, int* posY) {
+void GamePad::getJoystickState(int* posX, int* posY) {
 
     for(int i =0; i<10; i++)
     {
