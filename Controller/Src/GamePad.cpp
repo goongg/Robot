@@ -90,10 +90,10 @@ unsigned short GamePad::getButtonState() {
     }
 
     if ((js.type & JS_EVENT_BUTTON) && js.value == 1) {
-        return (1 << js.number); 
+        return (unsigned short)(1 << js.number); 
     }
 
-    return 0;
+    return  (unsigned short)0;
 }
 
 void GamePad::getJoystickState(int* posX, int* posY) {
@@ -112,5 +112,7 @@ void GamePad::getJoystickState(int* posX, int* posY) {
             *posY = js.value;
         }
     }
+
+    return;
 }
 #endif
