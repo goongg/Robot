@@ -178,10 +178,10 @@ private:
 그리고 Controller하고도 데이터 송수신이 이루어 져야 한다.
 그래서 대폭 수정한다.
 
-
-
-
-
+리눅스에서와 window에서 게임패드를 컨트롤하는 방법이 너무 다르다.
+https://gist.github.com/ammuench/0dcf14faf4e3b000020992612a2711e2
+https://m.blog.naver.com/craezydog/50174345274
+우선 잘 안읽히는것 같긴한데...
 
 
 ## Controller
