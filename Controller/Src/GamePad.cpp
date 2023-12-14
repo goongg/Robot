@@ -7,7 +7,9 @@
     #include <Windows.h>
     #include <xinput.h>
 #else
-
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <linux/joystick.h>
 #endif
 
 class GamePad : public iController{
