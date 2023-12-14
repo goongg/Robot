@@ -20,7 +20,7 @@ GamePad::GamePad() {
     if (fd == -1) {
         std::cerr << "Unable to open joystick device." << std::endl;
         close(fd);        
-        return 1;
+        return;
     }
     close(fd);
 }
