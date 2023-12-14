@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <linux/joystick.h>
 
-class GamePad :  iController {
+class GamePad  {
 public:
     GamePad();
     ~GamePad();
