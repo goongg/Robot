@@ -12,27 +12,26 @@ public:
     int getTriggerState(bool isRightTrigger) ;
 
 private:
-    int fd;
 };
 
 GamePad::GamePad() {
+    int fd;
     fd = open("/dev/input/js0", O_RDONLY);
     if (fd == -1) {
         std::cerr << "Unable to open joystick device." << std::endl;
         // Handle error
     }
+    close(fd);
 }
 
 GamePad::~GamePad() {
-    if (fd != -1) {
-        close(fd);
-    }
 }
 
 unsigned short GamePad::getButtonState() {
     js_event js;
     ssize_t bytesRead;
-
+    int fd;
+    fd = open("/dev/input/js0", O_RDONLY);
     bytesRead = read(fd, &js, sizeof(js_event));
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
@@ -43,14 +42,15 @@ unsigned short GamePad::getButtonState() {
     if ((js.type & JS_EVENT_BUTTON) && js.value == 1) {
         return (1 << js.number); // Button index is zero-based
     }
-
+    close(fd);
     return 0;
 }
 
 void GamePad::getJoystickState(int* posX, int* posY) {
     js_event js;
     ssize_t bytesRead;
-
+    int fd;
+    fd = open("/dev/input/js0", O_RDONLY);
     bytesRead = read(fd, &js, sizeof(js_event));
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
@@ -65,12 +65,14 @@ void GamePad::getJoystickState(int* posX, int* posY) {
             *posY = js.value;
         }
     }
+        close(fd);
 }
 
 int GamePad::getTriggerState(bool isRightTrigger) {
     js_event js;
     ssize_t bytesRead;
-
+    int fd;
+    fd = open("/dev/input/js0", O_RDONLY);    
     bytesRead = read(fd, &js, sizeof(js_event));
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
@@ -85,7 +87,7 @@ int GamePad::getTriggerState(bool isRightTrigger) {
             return js.value;
         }
     }
-
+        close(fd);
     return 0;
 }
 
