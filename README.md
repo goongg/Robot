@@ -5,6 +5,7 @@
         - [**PWM TEST**](#pwm-test)
       - [**23.12.13 라즈베리파이 Interface 설계**](#231213-라즈베리파이-interface-설계)
   - [Coding Rule](#coding-rule)
+      - [**23.12.13 로봇 Class Architecture 재 설계**](#231213-로봇-class-architecture-재-설계)
   - [Controller](#controller)
   - [Pan Tilt Camera](#pan-tilt-camera)
 
@@ -170,9 +171,16 @@ private:
 
 ```
 
+#### **23.12.13 로봇 Class Architecture 재 설계**
 
-각 Class 들은 독립적으로 빌드가 가능하다.
-우선 인터페이스 Class 는 설계실패했는디.. 우선 조금 더공부해서 다음에 수정하기로 하자.
+음 이렇게 설계를 하고 보니 의존성 관계와 이름이 애매해 졌다.
+우선 기본적으로 Motor는 라즈베리파이를 의존해야 한다.
+그리고 Controller하고도 데이터 송수신이 이루어 져야 한다.
+그래서 대폭 수정한다.
+
+
+
+
 
 
 
