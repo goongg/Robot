@@ -57,7 +57,7 @@ void GamePad::getJoystickState(int* posX, int* posY) {
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
         close(fd);        
-        return 1;
+        return;
     }
 
     // Check if it's an event for joystick movement
