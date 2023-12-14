@@ -19,7 +19,8 @@ GamePad::GamePad() {
     fd = open("/dev/input/js0", O_RDONLY);
     if (fd == -1) {
         std::cerr << "Unable to open joystick device." << std::endl;
-        // Handle error
+        close(fd);        
+        return 1;
     }
     close(fd);
 }
@@ -35,7 +36,8 @@ unsigned short GamePad::getButtonState() {
     bytesRead = read(fd, &js, sizeof(js_event));
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
-        // Handle error
+         close(fd);        
+        return 1;
     }
 
     // Check if it's an event for button press or release
@@ -54,7 +56,8 @@ void GamePad::getJoystickState(int* posX, int* posY) {
     bytesRead = read(fd, &js, sizeof(js_event));
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
-        // Handle error
+        close(fd);        
+        return 1;
     }
 
     // Check if it's an event for joystick movement
@@ -76,7 +79,8 @@ int GamePad::getTriggerState(bool isRightTrigger) {
     bytesRead = read(fd, &js, sizeof(js_event));
     if (bytesRead == -1) {
         std::cerr << "Error reading joystick input." << std::endl;
-        // Handle error
+        close(fd);        
+        return 1;
     }
 
     // Check if it's an event for trigger movement
