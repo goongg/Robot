@@ -20,7 +20,7 @@ public:
 private:
 #ifdef _WIN32 // Windows
     XINPUT_STATE state; 
-#else  
+#elif __linux__
     int fd;    
 #endif
 };
@@ -63,7 +63,7 @@ void GamePad::getJoyStickState(int* posX, int* posY) {
 }
 
 
-#else //Linux
+#elif __linux__
 GamePad::GamePad() {
     fd = open("/dev/input/js0", O_RDONLY);
     if (fd == -1) {
