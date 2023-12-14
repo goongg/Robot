@@ -16,8 +16,8 @@ class GamePad : public iController{
 public:
     GamePad();
     ~GamePad();
-    unsigned short getBottrnState() override;
-    void getJoyStickState(int* posX, int* posY) override;    
+    unsigned short getButtonState() override;
+    void getJoystickState(int* posX, int* posY) override;    
 
 private:
 #ifdef _WIN32 // Windows
