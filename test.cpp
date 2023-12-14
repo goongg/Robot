@@ -3,13 +3,13 @@
 #include <unistd.h>
 #include <linux/joystick.h>
 
-class GamePad : public iController {
+class GamePad :  iController {
 public:
     GamePad();
     ~GamePad();
-    unsigned short getButtonState() override;
-    void getJoystickState(int* posX, int* posY) override;
-    int getTriggerState(bool isRightTrigger) override;
+    unsigned short getButtonState() ;
+    void getJoystickState(int* posX, int* posY) ;
+    int getTriggerState(bool isRightTrigger) ;
 
 private:
     int fd;
