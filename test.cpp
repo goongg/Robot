@@ -156,9 +156,11 @@ int main() {
     int posX = 0, posY = 0;
     unsigned short buttonState = 0;
     int rightTriggerState = 0, leftTriggerState = 0;
-
+	std::cout<<"?";
     // Read joystick input in a loop (you may want to use threading to handle input asynchronously)
     while (true) {
+		std::cout<<"?";
+		
        Joystick();
         usleep(10000); // Sleep for 10 milliseconds to avoid busy-waiting
     }
