@@ -163,7 +163,7 @@ int main() {
 	
 	ioctl(joy_fd, JSIOCGAXES, &num_of_axis);	
 	ioctl(joy_fd, JSIOCGBUTTONS, &num_of_buttons);	
-	ioctl(joy_fd, JSIOCNAME(80), &name_of_joystick);	
+	ioctl(joy_fd, JSIOCNAME, &name_of_joystick);	
 		 
 	axis = (int *) calloc(num_of_axis, sizeof(int));	
 	button = (char *) calloc(num_of_buttons, sizeof(char));
