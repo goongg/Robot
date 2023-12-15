@@ -175,7 +175,7 @@ int main() {
 //		std::cout<<"?";
 		
        Joystick();
-        usleep(10000); // Sleep for 10 milliseconds to avoid busy-waiting
+       // usleep(10000); // Sleep for 10 milliseconds to avoid busy-waiting
     }
 
     return 0;
