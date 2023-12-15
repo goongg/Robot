@@ -102,17 +102,14 @@
 
  
 
-int joy_fd, num_of_axis=2, num_of_buttons=4, x;
-int axis[3]; 
-char button[10];
-char name_of_joystick[80];
+int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
+char *button=NULL, name_of_joystick[80];
 
 struct js_event js;
 int Left_Forward;
 int Left_Reverse;
 int Right_Forward;
 int Right_Reverse;
-
  
 
 void Joystick(void)
@@ -158,7 +155,21 @@ int main() {
     unsigned short buttonState = 0;
     int rightTriggerState = 0, leftTriggerState = 0;
 //	std::cout<<"?";
-	 joy_fd= open("/dev/input/js0", O_RDONLY);    
+	if(joy_fd= open("/dev/input/js0", O_RDONLY) ==-1)
+	{
+		printf("error");
+		return -1;
+	}
+	
+	ioctl(joy_fd, JSIOCGAXES, &num_of_axis);	
+	ioctl(joy_fd, JSIOCGBUTTONS, &num_of_buttons);	
+	ioctl(joy_fd, JSIOCNAME(80), &name_of_joystick);	
+		 
+	axis = (int *) calloc(num_of_axis, sizeof(int));	
+	button = (char *) calloc(num_of_buttons, sizeof(char));
+	
+	fcntl(joy_fd, F_SETFL, O_NONBLOCK);
+	
     // Read joystick input in a loop (you may want to use threading to handle input asynchronously)
     while (true) {
 //		std::cout<<"?";
