@@ -90,32 +90,7 @@ int GamePad::getTriggerState(bool isRightTrigger) {
     return 0;
 }
 
-//int main() {
-//    GamePad gamePad;
 
-//    // Test the controller functions
-//    int posX = 0, posY = 0;
-//    unsigned short buttonState = 0;
-//    int rightTriggerState = 0, leftTriggerState = 0;
-
-//    // Read joystick input in a loop (you may want to use threading to handle input asynchronously)
-//    while (true) {
-//        buttonState = gamePad.getButtonState();
-//        std::cout << "Button State: " << buttonState << std::endl;
-
-//        gamePad.getJoystickState(&posX, &posY);
-//        std::cout << "Joystick Position: X=" << posX << ", Y=" << posY << std::endl;
-
-//        //rightTriggerState = gamePad.getTriggerState(true);
-//        //leftTriggerState = gamePad.getTriggerState(false);
-//        //std::cout << "Right Trigger State: " << rightTriggerState << std::endl;
-//        //std::cout << "Left Trigger State: " << leftTriggerState << std::endl;
-
-//        usleep(10000); // Sleep for 10 milliseconds to avoid busy-waiting
-//    }
-
-//    return 0;
-//}
 
 
 
@@ -172,4 +147,21 @@ void Joystick(void)
      //printf("\r");
      //printf("\n");
      fflush(stdout);
+}
+
+int main() {
+    GamePad gamePad;
+
+    // Test the controller functions
+    int posX = 0, posY = 0;
+    unsigned short buttonState = 0;
+    int rightTriggerState = 0, leftTriggerState = 0;
+
+    // Read joystick input in a loop (you may want to use threading to handle input asynchronously)
+    while (true) {
+       Joystick();
+        usleep(10000); // Sleep for 10 milliseconds to avoid busy-waiting
+    }
+
+    return 0;
 }
