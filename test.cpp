@@ -138,14 +138,14 @@ void Joystick(void)
      if( num_of_axis > 3 )
      Right_Reverse = axis[3];
     
-     //printf("X: %6d  ", axis[0] );
-     //printf("Y: %6d  ", axis[1] );
+     printf("X: %6d  ", axis[0] );
+     printf("Y: %6d  ", axis[1] );
  
-     //for( x=0 ; x<num_of_buttons ; ++x )
-     //for( x=0 ; x<8 ; ++x )
-             //printf("B%d: %d  ", x, button[x] );
-     //printf("\r");
-     //printf("\n");
+     for( x=0 ; x<num_of_buttons ; ++x )
+     for( x=0 ; x<8 ; ++x )
+             printf("B%d: %d  ", x, button[x] );
+     printf("\r");
+     printf("\n");
      fflush(stdout);
 }
 
