@@ -1,13 +1,13 @@
 - [**Robot**](#robot)
-  - [**Motor Control**](#motor-control)
-      - [**23.12.08 기본 GPIO 제어 및 PWM 제어**](#231208-기본-gpio-제어-및-pwm-제어)
-        - [**GPIO TEST**](#gpio-test)
-        - [**PWM TEST**](#pwm-test)
-      - [**23.12.13 라즈베리파이 Interface 설계**](#231213-라즈베리파이-interface-설계)
-  - [Coding Rule](#coding-rule)
-      - [**23.12.13 로봇 Class Architecture 재 설계**](#231213-로봇-class-architecture-재-설계)
-  - [Controller](#controller)
-  - [Pan Tilt Camera](#pan-tilt-camera)
+	- [**Motor Control**](#motor-control)
+			- [**23.12.08 기본 GPIO 제어 및 PWM 제어**](#231208-기본-gpio-제어-및-pwm-제어)
+				- [**GPIO TEST**](#gpio-test)
+				- [**PWM TEST**](#pwm-test)
+			- [**23.12.13 라즈베리파이 Interface 설계**](#231213-라즈베리파이-interface-설계)
+	- [Coding Rule](#coding-rule)
+			- [**23.12.13 로봇 Class Architecture 재 설계**](#231213-로봇-class-architecture-재-설계)
+	- [Controller](#controller)
+	- [Pan Tilt Camera](#pan-tilt-camera)
 
 # **Robot**
 라즈베리파이 4B를 사용한 로봇 개발

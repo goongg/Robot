@@ -1,17 +1,20 @@
-CC = gcc
-CPP = g++
-CFLAGS = -Wall -Wextra
+CC = g++
+CFLAGS = -Wall -I../Controller/ -I../IOPlatform
+WINLDFLAGS = -lXinput
 
-all: Robot_pi
+WINOBJS = GamePad.o robot.o RaspSysfs.o main.o 
 
-Robot_pi: main.o utils.o
-    $(CC) $(CFLAGS) -DDEFINE_VALUE=42 -o myprogram main.o utils.o
+GamePad.o: ../Controller/Src/GamePad.cpp ../Controller/Src/GamePad.h
+	$(CC) $(CFLAGS) -c ../Controller/Src/GamePad.cpp
 
-main.o: main.c
-    $(CC) $(CFLAGS) -c main.c
+RaspSysfs.o: ../IOPlatform/Src/RaspSysfs.cpp ../IOPlatform/Src/RaspSysfs.h
+	$(CC) $(CFLAGS) -c ../IOPlatform/Src/RaspSysfs.cpp
 
-utils.o: utils.c
-    $(CC) $(CFLAGS) -c utils.c
+robot.o: ../Robot/Robot.cpp ../Robot/Robot.h
+	$(CC) $(CFLAGS) -c ../Robot/Robot.cpp
 
-clean:
-    rm -f myprogram *.o
+main.o: ../Main/Main.cpp
+	$(CC) $(CFLAGS) -c ../Main/Main.cpp
+
+WIN: $(WINOBJS)
+	$(CC) $(CFLAGS) -o RunRobot_WIN $(WINOBJS) $(WINLDFLAGS)

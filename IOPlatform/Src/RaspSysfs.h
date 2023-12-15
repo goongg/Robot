@@ -10,13 +10,15 @@
 #define PROT_PWM_0 20
 #define PROT_PWM_1 21
 
-class RaspSysfs
+#include <iIOPlatform.h>
+
+class RaspSysfs : public iIOPlatform
 {
     public:
         RaspSysfs();
         ~RaspSysfs();    
-        void setGPIOValue(int pin, int value);
-        void setPwmDutyCycle(int pwm, int dutyCycle);
+        void setGPIOValue(int pin, int value) override;
+        void setPwmDutyCycle(int pwm, int dutyCycle) override;
 
     private:
         void initPort(void);
