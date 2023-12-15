@@ -103,7 +103,8 @@ int GamePad::getTriggerState(bool isRightTrigger) {
 
  
 
-int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
+int joy_fd, num_of_axis=0, num_of_buttons=0, x;
+int axis[3], 
 char *button=NULL, name_of_joystick[80];
 
 struct js_event js;
