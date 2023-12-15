@@ -1,94 +1,93 @@
-#include <iostream>
-#include <fcntl.h>
-#include <unistd.h>
-#include <linux/joystick.h>
+//#include <iostream>
+//#include <fcntl.h>
+//#include <unistd.h>
+//#include <linux/joystick.h>
+//class GamePad  {
+//public:
+//    GamePad();
+//    ~GamePad();
+//    unsigned short getButtonState() ;
+//    void getJoystickState(int* posX, int* posY) ;
+//    int getTriggerState(bool isRightTrigger) ;
 
-class GamePad  {
-public:
-    GamePad();
-    ~GamePad();
-    unsigned short getButtonState() ;
-    void getJoystickState(int* posX, int* posY) ;
-    int getTriggerState(bool isRightTrigger) ;
+//private:
+//};
 
-private:
-};
+//GamePad::GamePad() {
+//    int fd;
+//    fd = open("/dev/input/js0", O_RDONLY);
+//    if (fd == -1) {
+//        std::cerr << "Unable to open joystick device." << std::endl;
+//        close(fd);        
+//        return;
+//    }
+//    close(fd);
+//}
 
-GamePad::GamePad() {
-    int fd;
-    fd = open("/dev/input/js0", O_RDONLY);
-    if (fd == -1) {
-        std::cerr << "Unable to open joystick device." << std::endl;
-        close(fd);        
-        return;
-    }
-    close(fd);
-}
+//GamePad::~GamePad() {
+//}
 
-GamePad::~GamePad() {
-}
+//unsigned short GamePad::getButtonState() {
+//    js_event js;
+//    ssize_t bytesRead;
+//    int fd;
+//    fd = open("/dev/input/js0", O_RDONLY);
+//    bytesRead = read(fd, &js, sizeof(js_event));
+//    if (bytesRead == -1) {
+//        std::cerr << "Error reading joystick input." << std::endl;
+//         close(fd);        
+//        return 1;
+//    }
 
-unsigned short GamePad::getButtonState() {
-    js_event js;
-    ssize_t bytesRead;
-    int fd;
-    fd = open("/dev/input/js0", O_RDONLY);
-    bytesRead = read(fd, &js, sizeof(js_event));
-    if (bytesRead == -1) {
-        std::cerr << "Error reading joystick input." << std::endl;
-         close(fd);        
-        return 1;
-    }
+//    // Check if it's an event for button press or release
+//    if ((js.type & JS_EVENT_BUTTON) && js.value == 1) {
+//        return (1 << js.number); // Button index is zero-based
+//    }
+//    close(fd);
+//    return 0;
+//}
 
-    // Check if it's an event for button press or release
-    if ((js.type & JS_EVENT_BUTTON) && js.value == 1) {
-        return (1 << js.number); // Button index is zero-based
-    }
-    close(fd);
-    return 0;
-}
+//void GamePad::getJoystickState(int* posX, int* posY) {
+//    js_event js;
+//    ssize_t bytesRead;
+//    int fd;
+//    fd = open("/dev/input/js0", O_RDONLY);
+//    bytesRead = read(fd, &js, sizeof(js_event));
+//    if (bytesRead == -1) {
+//        close(fd);        
+//    }
 
-void GamePad::getJoystickState(int* posX, int* posY) {
-    js_event js;
-    ssize_t bytesRead;
-    int fd;
-    fd = open("/dev/input/js0", O_RDONLY);
-    bytesRead = read(fd, &js, sizeof(js_event));
-    if (bytesRead == -1) {
-        close(fd);        
-    }
+//    // Check if it's an event for joystick movement
+//    if (js.type & JS_EVENT_AXIS) {
+//        if (js.number == 0) {
+//            *posX = js.value;
+//        } else if (js.number == 1) {
+//            *posY = js.value;
+//        }
+//    }
+//}
 
-    // Check if it's an event for joystick movement
-    if (js.type & JS_EVENT_AXIS) {
-        if (js.number == 0) {
-            *posX = js.value;
-        } else if (js.number == 1) {
-            *posY = js.value;
-        }
-    }
-}
+//int GamePad::getTriggerState(bool isRightTrigger) {
+//    js_event js;
+//    ssize_t bytesRead;
+//    int fd;
+//    fd = open("/dev/input/js0", O_RDONLY);    
+//    bytesRead = read(fd, &js, sizeof(js_event));
+//    if (bytesRead == -1) {
+//        close(fd);        
+//    }
 
-int GamePad::getTriggerState(bool isRightTrigger) {
-    js_event js;
-    ssize_t bytesRead;
-    int fd;
-    fd = open("/dev/input/js0", O_RDONLY);    
-    bytesRead = read(fd, &js, sizeof(js_event));
-    if (bytesRead == -1) {
-        close(fd);        
-    }
-
-    // Check if it's an event for trigger movement
-    if (js.type & JS_EVENT_AXIS) {
-        if (isRightTrigger && js.number == 4) {
-            return js.value;
-        } else if (!isRightTrigger && js.number == 5) {
-            return js.value;
-        }
-    }
-        close(fd);
-    return 0;
-}
+//    // Check if it's an event for trigger movement
+//    if (js.type & JS_EVENT_AXIS) {
+//        if (isRightTrigger && js.number == 4) {
+//            return js.value;
+//        } else if (!isRightTrigger && js.number == 5) {
+//            return js.value;
+//        }
+//    }
+//        close(fd);
+//    return 0;
+//}
 
 
 
@@ -104,7 +103,7 @@ int GamePad::getTriggerState(bool isRightTrigger) {
  
 
 int joy_fd, num_of_axis=0, num_of_buttons=0, x;
-int axis[3], 
+int axis[3]; 
 char button[10];
 char name_of_joystick[80];
 
