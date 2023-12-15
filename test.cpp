@@ -116,6 +116,7 @@ int Right_Reverse;
 
 void Joystick(void)
 {   
+	 joy_fd= open("/dev/input/js0", O_RDONLY);    
      read(joy_fd, &js, sizeof(struct js_event));       // 조이스틱 상태를 읽어오는 부분
      switch (js.type & ~JS_EVENT_INIT)
      {
