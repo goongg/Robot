@@ -102,7 +102,7 @@
 
  
 
-int joy_fd, num_of_axis=0, num_of_buttons=0, x;
+int joy_fd, num_of_axis=2, num_of_buttons=4, x;
 int axis[3]; 
 char button[10];
 char name_of_joystick[80];
@@ -117,7 +117,6 @@ int Right_Reverse;
 
 void Joystick(void)
 {   
-	 joy_fd= open("/dev/input/js0", O_RDONLY);    
      read(joy_fd, &js, sizeof(struct js_event));       // 조이스틱 상태를 읽어오는 부분
      switch (js.type & ~JS_EVENT_INIT)
      {
@@ -159,6 +158,7 @@ int main() {
     unsigned short buttonState = 0;
     int rightTriggerState = 0, leftTriggerState = 0;
 //	std::cout<<"?";
+	 joy_fd= open("/dev/input/js0", O_RDONLY);    
     // Read joystick input in a loop (you may want to use threading to handle input asynchronously)
     while (true) {
 //		std::cout<<"?";
