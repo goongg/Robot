@@ -52,14 +52,8 @@ int main()
 
 			/* print the results */
 		printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
-		
-		if( num_of_axis > 2 )
-			printf("Z: %6d  ", axis[2] );
-			
-		if( num_of_axis > 3 )
-			printf("R: %6d  ", axis[3] );
-			
-		for( x=0 ; x<num_of_buttons ; ++x )
+					
+		for( x=0 ; x<4 ; ++x )
 			printf("B%d: %d  ", x, button[x] );
 
 		printf("  \r");
