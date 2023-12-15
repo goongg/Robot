@@ -88,4 +88,7 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 
     return;
 }
+#else
+
+
 #endif
