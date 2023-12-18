@@ -6,6 +6,7 @@
 			- [**23.12.13 라즈베리파이 Interface 설계**](#231213-라즈베리파이-interface-설계)
 	- [Coding Rule](#coding-rule)
 			- [**23.12.13 로봇 Class Architecture 재 설계**](#231213-로봇-class-architecture-재-설계)
+			- ["23.12.18 리눅스 GamePad Input"](#231218-리눅스-gamepad-input)
 	- [Controller](#controller)
 	- [Pan Tilt Camera](#pan-tilt-camera)
 
@@ -182,6 +183,11 @@ private:
 https://gist.github.com/ammuench/0dcf14faf4e3b000020992612a2711e2
 https://m.blog.naver.com/craezydog/50174345274
 우선 잘 안읽히는것 같긴한데...
+
+
+#### "23.12.18 리눅스 GamePad Input"
+이제야 결국 정상적으로 받아진다.
+이제 낼부터 받아진 결과인 x, y but 을 기준으로 Drive 함수를 짜자.
 
 
 ## Controller
