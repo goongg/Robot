@@ -42,6 +42,7 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 
 #define JOY_DEV "/dev/input/js0"
 #include <unistd.h>
+
 GamePad::GamePad() {
 	
 	num_of_axis=0;
@@ -65,8 +66,6 @@ GamePad::GamePad() {
 		, name_of_joystick
 		, num_of_axis
 		, num_of_buttons );
-
-	close( joy_fd );	/* too bad we never get here */
 
 }
 
@@ -114,8 +113,8 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 			break;
         }
 		/* print the results */
-    	printf("  \r");
 		printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
+    	printf("  \r");
 		fflush(stdout);		
 		*posX = axis[0];
 		*posY = axis[1];

@@ -13,6 +13,7 @@
     #include <fcntl.h>
     #include <unistd.h>
     #include <linux/joystick.h>
+	#include <pthread.h>	
 #endif
 	
 class GamePad : public iController
@@ -35,6 +36,8 @@ class GamePad : public iController
         char *button;
         char name_of_joystick[80];
         struct js_event js;
+		pthread_t inputThread;
+
     #endif
 };
 
