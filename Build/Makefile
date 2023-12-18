@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall -I../Controller/ -I../IOPlatform
 WINLDFLAGS = -lXinput
-WINOBJS = GamePad.o robot.o RaspSysfs.o main.o 
+WINOBJS = GamePad.o Robot.o RaspSysfs.o Main.o 
 
 GamePad.o: ../Controller/Src/GamePad.cpp ../Controller/Src/GamePad.h
 	$(CC) $(CFLAGS) -c ../Controller/Src/GamePad.cpp
@@ -9,10 +9,10 @@ GamePad.o: ../Controller/Src/GamePad.cpp ../Controller/Src/GamePad.h
 RaspSysfs.o: ../IOPlatform/Src/RaspSysfs.cpp ../IOPlatform/Src/RaspSysfs.h
 	$(CC) $(CFLAGS) -c ../IOPlatform/Src/RaspSysfs.cpp
 
-robot.o: ../Robot/Robot.cpp ../Robot/Robot.h
+Robot.o: ../Robot/Robot.cpp ../Robot/Robot.h
 	$(CC) $(CFLAGS) -c ../Robot/Robot.cpp
 
-main.o: ../Main/Main.cpp
+Main.o: ../Main/Main.cpp
 	$(CC) $(CFLAGS) -c ../Main/Main.cpp
 
 WIN: $(WINOBJS)
