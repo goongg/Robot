@@ -37,7 +37,6 @@ void Robot::drive()
 
 #ifdef _WIN32 // Windows
     #include <Windows.h>
-
 Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 {
 	Controller= _Controller;
@@ -54,7 +53,21 @@ void motorControl(int motor, int speed)
 {
 		
 }
-
 #else
+Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
+{
+	Controller= _Controller;
+	IoModule = _IoModule;
+	
+	while(1)
+	{
+		drive();	
+		ussleep(1000);
+	}
+}
 
+void motorControl(int motor, int speed)
+{
+	
+}
 #endif

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../Robot/Robot.h"
+#include "Robot.h"
 
 #include "../Controller/Src/GamePad.h"
 #include "../IOPlatform/Src/RaspSysfs.h"
