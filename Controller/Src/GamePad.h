@@ -36,9 +36,7 @@ class GamePad : public iController
         char name_of_joystick[80];
         struct js_event js;
     #endif
-	#endif
 };
-
 
 #endif
 	
