@@ -51,8 +51,8 @@ int main()
 		}
 
 			/* print the results */
-		printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
 					
+		printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
 		for( x=0 ; x<4 ; ++x )
 			printf("B%d: %d  ", x, button[x] );
 

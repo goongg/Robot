@@ -113,11 +113,14 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 				axis   [ js.number ] = js.value;
 			break;
         }
+		/* print the results */
+    	printf("  \r");
+		printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
+		fflush(stdout);		
+		posX* = axis[0];
+		posY* = axis[1];
     }
-	/* print the results */
-    printf("  \r");
-	printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
-	fflush(stdout);
+
     return;
 }
 
