@@ -63,7 +63,7 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	while(1)
 	{
 		drive();	
-		ussleep(1000);
+		usleep(1000);
 	}
 }
 
