@@ -39,13 +39,17 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 }
 #else
 
-#define JOY_DEV "/dev/input/js0"
-GamePad::GamePad() {
 
+#define JOY_DEV "/dev/input/js0"
+#include <unistd.h>
+GamePad::GamePad() {
 	while( ( joy_fd = open( JOY_DEV , O_RDONLY))  == -1){
 		printf( "Couldn't open joystick\n" );
+		usleep(100000);
 	}
-
+	
+	printf( "\n==Success open joystick!==\n" );
+	
 	ioctl( joy_fd, JSIOCGAXES, &num_of_axis );
 	ioctl( joy_fd, JSIOCGBUTTONS, &num_of_buttons );
 	ioctl( joy_fd, JSIOCGNAME(80), &name_of_joystick );
