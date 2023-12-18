@@ -18,3 +18,6 @@ main.o: ../Main/Main.cpp
 
 WIN: $(WINOBJS)
 	$(CC) $(CFLAGS) -o RunRobot_WIN $(WINOBJS) $(WINLDFLAGS)
+	
+LINUX: $(WINOBJS)
+$(CC) $(CFLAGS) -o RunRobot_WIN $(WINOBJS)
