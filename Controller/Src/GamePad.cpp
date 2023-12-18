@@ -89,15 +89,15 @@ unsigned short GamePad::getButtonState()
 				button [ js.number ] = js.value;
 				break;
         }
-        printf("  \r");
     }
 
+    printf("  \r");
     for( x=0 ; x<4 ; ++x )
     {
         printf("B%d: %d  ", x, button[x] );
         ret |= button[x]&(0x01) << (x);
     }
-
+	fflush(stdout);
     return ret;
 }
 
@@ -116,8 +116,7 @@ void GamePad::getJoystickState(int* posX, int* posY) {
     }
 	/* print the results */
 	printf( "X: %6d  Y: %6d  ", axis[0], axis[1] );
-    printf("  \r");
-
+	fflush(stdout);
     return;
 }
 
