@@ -54,6 +54,7 @@ void motorControl(int motor, int speed)
 		
 }
 #else
+#include <unistd.h>
 Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 {
 	Controller= _Controller;
