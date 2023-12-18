@@ -27,7 +27,15 @@ class GamePad : public iController
 	#ifdef _WIN32 // Windows
 	    XINPUT_STATE state; 
 	#else
-	    int fd;    
+        int joy_fd;
+        int *axis;
+        int num_of_axis;
+        int num_of_buttons=;
+        int x;
+        char *button;
+        char name_of_joystick[80];
+        struct js_event js;
+    #endif
 	#endif
 };
 
