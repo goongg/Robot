@@ -30,7 +30,7 @@ class GamePad : public iController
         int joy_fd;
         int *axis;
         int num_of_axis;
-        int num_of_buttons=;
+        int num_of_buttons;
         int x;
         char *button;
         char name_of_joystick[80];
