@@ -19,4 +19,4 @@ WIN: $(WINOBJS)
 	$(CC)	$(CFLAGS) -o RunRobot_WIN	$(WINOBJS)	$(WINLDFLAGS)
 
 LINUX:	$(WINOBJS)
-$(CC)	$(CFLAGS)	-o	RunRobot_WIN	$(WINOBJS)
+	$(CC)	$(CFLAGS)	-o	RunRobot_LINUX	$(WINOBJS)
