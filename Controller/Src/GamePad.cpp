@@ -39,11 +39,11 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 }
 #else
 
+#define JOY_DEV "/dev/input/js0"
 GamePad::GamePad() {
-	if( ( joy_fd = open( JOY_DEV , O_RDONLY)) == -1 )
-	{
+
+	while( ( joy_fd = open( JOY_DEV , O_RDONLY))  == -1){
 		printf( "Couldn't open joystick\n" );
-		return -1;
 	}
 
 	ioctl( joy_fd, JSIOCGAXES, &num_of_axis );
@@ -63,8 +63,8 @@ GamePad::GamePad() {
 }
 
 GamePad::~GamePad() {
-    if (fd != -1) {
-        close(fd);
+    if (joy_fd != -1) {
+        close(joy_fd);
     }
 }
 
@@ -112,5 +112,5 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 
     return;
 }
-W
+
 #endif
