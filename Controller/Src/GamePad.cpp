@@ -88,15 +88,16 @@ unsigned short GamePad::getButtonState()
 				button [ js.number ] = js.value;
 				break;
         }
+	    printf("  \r");
+    	for( x=0 ; x<4 ; ++x )
+    	{
+        	printf("B%d: %d  ", x, button[x] );
+			fflush(stdout);
+	        ret |= button[x]&(0x01) << (x);
+    	}		
     }
 
-    printf("  \r");
-    for( x=0 ; x<4 ; ++x )
-    {
-        printf("B%d: %d  ", x, button[x] );
-        ret |= button[x]&(0x01) << (x);
-    }
-	fflush(stdout);
+
     return ret;
 }
 
