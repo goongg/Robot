@@ -1,5 +1,5 @@
 #include "Robot.h"
-
+#include <iostream>
 
 unsigned short Robot::getButtonState()
 {
@@ -21,11 +21,13 @@ void Robot::setPwmDutyCycle(int pwm, int dutyCycle)
 void Robot::drive()
 {
 	int x, y;
+	unsigned short but;
 	getJoystickState(&x, &y);
-	
+	std::cout<<"\n"<<x<<" "<<y<<"\n";
 	int powerX;
 	int powerY;
-	
+	but = getButtonState();
+	std::cout<<"\n"<<but<<"\n";
 	if(x>=32767)
 	{
 //		setGPIOValue();
