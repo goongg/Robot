@@ -43,6 +43,12 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 #define JOY_DEV "/dev/input/js0"
 #include <unistd.h>
 GamePad::GamePad() {
+	
+	*axis=NULL;
+	num_of_axis=0;
+	num_of_buttons=0;
+	*button=NULL;
+		
 	while( ( joy_fd = open( JOY_DEV , O_RDONLY))  == -1){
 		printf( "Couldn't open joystick\n" );
 		usleep(100000);
