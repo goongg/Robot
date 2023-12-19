@@ -59,8 +59,9 @@ void Robot::drive()
 	std::cout<<"\n"<<but<<"\n";
 	fflush(stdout);
 	
-	if(x>=32000)
+	if(y<-32000)
 	{
+		std::cout<<"run";
 		motorControl(0,100);
 		motorControl(1,100);		
 	}	
