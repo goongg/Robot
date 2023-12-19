@@ -52,11 +52,9 @@ void Robot::motorControl(int motor, int speed)
 void Robot::drive()
 {
 	getJoystickState(&x, &y);
-	int powerX;
-	int powerY;
 	but = getButtonState();
 	printf("  \r");
-	std::cout<<"\n x:"<<x<<" y:"<<y<<but<<"\n";
+	std::cout<<"x:"<<x<<" y:"<<y<<"but:"<<but;
 	fflush(stdout);
 	
 	if(y<-32000)
@@ -83,8 +81,7 @@ void Robot::drive()
 		motorControl(0,70);
 		motorControl(1,70);				
 	}
-
-	if(x==0 && y ==0)
+	else
 	{
 		std::cout<<"stop";
 		motorControl(0,0);
@@ -118,7 +115,6 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	while(1)
 	{
 		drive();	
-		usleep(10);
 	}
 }
 
