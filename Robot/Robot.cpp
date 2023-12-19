@@ -18,6 +18,34 @@ void Robot::setPwmDutyCycle(int pwm, int dutyCycle)
 	IoModule->setPwmDutyCycle(pwm, dutyCycle);
 }
 
+void Robot::motorControl(int motor, int speed)
+{
+	if(motor==0 && speed > 0)
+	{
+		setGPIOValue(23, 1);
+		setGPIOValue(24, 0);
+		setPwmDutyCycle(0, speed);
+	}
+	else if(motor==0 && speed < 0)
+	{
+		setGPIOValue(23, 0);
+		setGPIOValue(24, 1);
+		setPwmDutyCycle(0, speed*(-1));
+	}	
+	else if(motor==1 && speed > 0)
+	{
+		setGPIOValue(20, 1);
+		setGPIOValue(21, 0);
+		setPwmDutyCycle(1, speed);
+	}
+	else if(motor==1 && speed < 0)
+	{
+		setGPIOValue(20, 0);
+		setGPIOValue(21, 1);
+		setPwmDutyCycle(1, speed*(-1));
+	}		
+}
+
 void Robot::drive()
 {
 	int x, y;
@@ -51,33 +79,7 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	}
 }
 
-void Robot::motorControl(int motor, int speed)
-{
-	if(motor==0 && speed > 0)
-	{
-		setGPIOValue(23, 1);
-		setGPIOValue(24, 0);
-		setPwmDutyCycle(0, speed);
-	}
-	else if(motor==0 && speed < 0)
-	{
-		setGPIOValue(23, 0);
-		setGPIOValue(24, 1);
-		setPwmDutyCycle(0, speed*(-1));
-	}	
-	else if(motor==1 && speed > 0)
-	{
-		setGPIOValue(20, 1);
-		setGPIOValue(21, 0);
-		setPwmDutyCycle(1, speed);
-	}
-	else if(motor==1 && speed < 0)
-	{
-		setGPIOValue(20, 0);
-		setGPIOValue(21, 1);
-		setPwmDutyCycle(1, speed*(-1));
-	}		
-}
+
 
 #else
 #include <unistd.h>
