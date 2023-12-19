@@ -52,27 +52,44 @@ void Robot::motorControl(int motor, int speed)
 void Robot::drive()
 {
 	getJoystickState(&x, &y);
-	std::cout<<"\n"<<x<<" "<<y<<"\n";
 	int powerX;
 	int powerY;
 	but = getButtonState();
-	std::cout<<"\n"<<but<<"\n";
+	printf("  \r");
+	std::cout<<"\n x:"<<x<<" y:"<<y<<but<<"\n";
 	fflush(stdout);
 	
 	if(y<-32000)
 	{
-		std::cout<<"run";
-		motorControl(0,50);
+		std::cout<<"run 100";
+		motorControl(0,100);
 		motorControl(1,100);		
 	}
-
-	if(y>0)
+	else if(y<-20000)
 	{
-		std::cout<<"run";
-		motorControl(0,0);
-		motorControl(1,0);		
+		std::cout<<"run 90";		
+		motorControl(0,90);
+		motorControl(1,90);				
+	}
+	else if(y<-10000)
+	{
+		std::cout<<"run 80";
+		motorControl(0,80);
+		motorControl(1,80);		
+	}
+	else if(y<-5000)
+	{
+		std::cout<<"run 70";
+		motorControl(0,70);
+		motorControl(1,70);				
 	}
 
+	if(x==0 && y ==0)
+	{
+		std::cout<<"stop";
+		motorControl(0,0);
+		motorControl(1,0);				
+	}
 }
 
 #ifdef _WIN32 // Windows
@@ -85,7 +102,7 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	while(1)
 	{
 		drive();	
-		Sleep(1);
+//		Sleep(1);
 	}
 }
 
@@ -101,7 +118,7 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	while(1)
 	{
 		drive();	
-		usleep(1000);
+		usleep(10);
 	}
 }
 
