@@ -62,9 +62,17 @@ void Robot::drive()
 	if(y<-32000)
 	{
 		std::cout<<"run";
-		motorControl(0,100);
+		motorControl(0,50);
 		motorControl(1,100);		
-	}	
+	}
+
+	if(y>0)
+	{
+		std::cout<<"run";
+		motorControl(0,0);
+		motorControl(1,0);		
+	}
+
 }
 
 #ifdef _WIN32 // Windows
