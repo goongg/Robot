@@ -21,7 +21,7 @@
 
 RaspSysfs::RaspSysfs()
 {
-
+	initPort();
 }
 
 
