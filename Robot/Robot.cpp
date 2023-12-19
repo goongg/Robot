@@ -46,10 +46,11 @@ void Robot::motorControl(int motor, int speed)
 	}		
 }
 
-void Robot::drive()
-{
 	int x, y;
 	unsigned short but;
+
+void Robot::drive()
+{
 	getJoystickState(&x, &y);
 	std::cout<<"\n"<<x<<" "<<y<<"\n";
 	int powerX;
