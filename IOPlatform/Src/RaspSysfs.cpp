@@ -81,9 +81,11 @@ void RaspSysfs::initPort(void)
 	(void)setGPIODirection(PROT_GPI0_IN_21, "out");
 
 	(void)exportPWM(PWM_CHENNEL_0);
+	(void)setPWMPeriod(PWM_CHENNEL_0, 1000000); 
 	(void)enablePWM(PWM_CHENNEL_0);
 
 	(void)exportPWM(PWM_CHENNEL_1);
+	(void)setPWMPeriod(PWM_CHENNEL_1, 1000000); 	
 	(void)enablePWM(PWM_CHENNEL_1);
 
     return;
