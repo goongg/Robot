@@ -21,6 +21,7 @@ class Robot
 		void setPwmDutyCycle(int pwm, int dutyCycle);
 
 		void drive();
+		void motorControl(int motor, int speed);
 };
 
 

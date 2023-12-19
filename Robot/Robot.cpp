@@ -23,18 +23,18 @@ void Robot::drive()
 	int x, y;
 	unsigned short but;
 	getJoystickState(&x, &y);
-	//std::cout<<"\n"<<x<<" "<<y<<"\n";
+	std::cout<<"\n"<<x<<" "<<y<<"\n";
 	int powerX;
 	int powerY;
 	but = getButtonState();
-	//std::cout<<"\n"<<but<<"\n";
-	if(x>=32767)
+	std::cout<<"\n"<<but<<"\n";
+	fflush(stdout);
+	
+	if(x>=32000)
 	{
-//		setGPIOValue();
-	}
-	
-	
-//	if(x>=)
+		motorControl(0,100);
+		motorControl(1,100);		
+	}	
 }
 
 #ifdef _WIN32 // Windows
@@ -51,10 +51,34 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	}
 }
 
-void motorControl(int motor, int speed)
+void Robot::motorControl(int motor, int speed)
 {
-		
+	if(motor==0 && speed > 0)
+	{
+		setGPIOValue(23, 1);
+		setGPIOValue(24, 0);
+		setPwmDutyCycle(0, speed);
+	}
+	else if(motor==0 && speed < 0)
+	{
+		setGPIOValue(23, 0);
+		setGPIOValue(24, 1);
+		setPwmDutyCycle(0, speed*(-1));
+	}	
+	else if(motor==1 && speed > 0)
+	{
+		setGPIOValue(20, 1);
+		setGPIOValue(21, 0);
+		setPwmDutyCycle(1, speed);
+	}
+	else if(motor==1 && speed < 0)
+	{
+		setGPIOValue(20, 0);
+		setGPIOValue(21, 1);
+		setPwmDutyCycle(1, speed*(-1));
+	}		
 }
+
 #else
 #include <unistd.h>
 Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
