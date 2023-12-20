@@ -26,7 +26,7 @@ void Robot::motorControl(int motor, int speed)
 		setGPIOValue(24, 0);
 		setPwmDutyCycle(0, 0);
 	}
-	else if(motor==0 && speed == 0)
+	else if(motor==1 && speed == 0)
 	{
 		setGPIOValue(20, 0);
 		setGPIOValue(21, 0);		
