@@ -24,11 +24,13 @@ void Robot::motorControl(int motor, int speed)
 	{
 		setGPIOValue(23, 0);
 		setGPIOValue(24, 0);
+		setPwmDutyCycle(0, 0);
 	}
 	else if(motor==0 && speed == 0)
 	{
 		setGPIOValue(20, 0);
 		setGPIOValue(21, 0);		
+		setPwmDutyCycle(1, 0);
 	}
 	
 	if(motor==0 && speed > 0)
@@ -127,26 +129,32 @@ void Robot::drive()
 		else if(x>15000)
 		{
 			speedA = 90;
+			speedB=0;			
 		}	
 		else if(x > 10000)
 		{
 			speedA = 85;
+			speedB=0;						
 		}	
 		else if(x>5000)
 		{
 			speedA = 80;			
+			speedB=0;									
 		} 
 		else if(x<-15000)
 		{
 			speedB = 90;
+			speedA=0;				
 		}					
 		else if(x < -10000)
 		{
 			speedB = 85;
+			speedA=0;							
 		}	
 		else if(x<-5000)
 		{
-			speedB= 80;			
+			speedB= 80;		
+			speedA=0;								
 		} 		
 	}
 	
