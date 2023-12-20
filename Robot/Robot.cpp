@@ -71,12 +71,10 @@ void Robot::drive()
 	int speedB=0;
 	if(y>25000)
 	{
-		if(x<8000 && -x>8000)
-		{
-			speedA=100;
-			speedB=100;			
-		}
-		else if(x>=8000)
+		speedA=100;
+		speedB=100;												
+		
+		if(x>=8000)
 		{
 			speedA=100;
 			speedB=90;						
@@ -86,6 +84,8 @@ void Robot::drive()
 			speedA=90;
 			speedB=100;									
 		}
+		else
+		{}
 	}
 	else if( y>10000 && y<=25000)
 	{
