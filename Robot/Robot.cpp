@@ -20,6 +20,17 @@ void Robot::setPwmDutyCycle(int pwm, int dutyCycle)
 
 void Robot::motorControl(int motor, int speed)
 {
+	if(motor==0 && speed == 0)
+	{
+		setGPIOValue(23, 0);
+		setGPIOValue(24, 0);
+	}
+	else if(motor==0 && speed == 0)
+	{
+		setGPIOValue(20, 0);
+		setGPIOValue(21, 0);		
+	}
+	
 	if(motor==0 && speed > 0)
 	{
 		setGPIOValue(23, 1);
@@ -57,7 +68,8 @@ void Robot::drive()
 	std::cout<<"x:"<<x<<" y:"<<y<<" ";
 	fflush(stdout);
 	y *= -1;
-	int speedA, speedB;
+	int speedA=0;
+	int speedB=0;
 	if(y>25000)
 	{
 		if(x<5000 && -x>5000)
