@@ -78,8 +78,8 @@ GamePad::~GamePad() {
 unsigned short GamePad::getButtonState() 
 {
     unsigned short ret=0;
-    for(int i =0; i<10; i++)
-    {
+    //for(int i =0; i<10; i++)
+    //{
 		read(joy_fd, &js, sizeof(struct js_event));
 		
         switch (js.type & ~JS_EVENT_INIT)
@@ -95,7 +95,7 @@ unsigned short GamePad::getButtonState()
 //			fflush(stdout);
 	        ret |= button[x]&(0x01) << (x);
     	}		
-    }
+    //}
 
 
     return ret;
@@ -103,8 +103,8 @@ unsigned short GamePad::getButtonState()
 
 void GamePad::getJoystickState(int* posX, int* posY) {
 
-    for(int i =0; i<10; i++)
-    {
+    //for(int i =0; i<10; i++)
+    //{
 		read(joy_fd, &js, sizeof(struct js_event));
 		
         switch (js.type & ~JS_EVENT_INIT)
@@ -119,7 +119,7 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 		fflush(stdout);		
 		*posX = axis[0];
 		*posY = axis[1];
-    }
+    //}
 
     return;
 }
