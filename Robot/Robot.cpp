@@ -66,34 +66,32 @@ void Robot::drive()
 {
 	getJoystickState(&x, &y);
 	//but = getButtonState();
-	printf("  \r");
-	std::cout<<"x:"<<x<<" y:"<<y<<" ";
-	fflush(stdout);
 	y *= -1;
 	int speedA=0;
 	int speedB=0;
 	if(y>25000)
 	{
-		if(x<5000 && -x>5000)
+		if(x<8000 && -x>8000)
 		{
 			speedA=100;
 			speedB=100;			
 		}
-		else if(x>=500)
+		else if(x>=8000)
 		{
 			speedA=100;
 			speedB=90;						
 		}
-		else if(x<-500)
+		else if(x<-8000)
 		{
 			speedA=90;
 			speedB=100;									
 		}
 	}
-	else if( y>2500 && y<=25000)
+	else if( y>10000 && y<=25000)
 	{
 		speedA= 80;
 		speedB= 80;	
+		
 		if(x>15000)
 		{
 			speedA += 20;
@@ -102,10 +100,6 @@ void Robot::drive()
 		{
 			speedA += 15;
 		}	
-		else if(x>5000)
-		{
-			speedA += 5;			
-		} 
 		else if(x<-15000)
 		{
 			speedB += 20;
@@ -114,50 +108,50 @@ void Robot::drive()
 		{
 			speedB += 15;
 		}	
-		else if(x<-5000)
-		{
-			speedB += 5;			
-		} 		
+	
 	}
-	else if (y<=2500 && y>=-2500)
+	else 
 	{
-		if(x<=2500 && x>=-2500)
+		if(x<=5000 && x>=-5000)
 		{
 			speedA=0;
 			speedB=0;
 		}
-		else if(x>15000)
+		else if(x>25000)
 		{
-			speedA = 90;
-			speedB=0;			
+			speedA = 100;
+			speedB = 0;			
 		}	
 		else if(x > 10000)
 		{
-			speedA = 85;
+			speedA = 95;
 			speedB=0;						
 		}	
 		else if(x>5000)
 		{
-			speedA = 80;			
+			speedA = 90;			
 			speedB=0;									
 		} 
 		else if(x<-15000)
 		{
-			speedB = 90;
+			speedB = 100;
 			speedA=0;				
 		}					
 		else if(x < -10000)
 		{
-			speedB = 85;
+			speedB = 95;
 			speedA=0;							
 		}	
 		else if(x<-5000)
 		{
-			speedB= 80;		
+			speedB= 90;		
 			speedA=0;								
 		} 		
 	}
 	
+	std::cout<<"x:"<<x<<" y:"<<y<<" Speed:"<<speedA <<", "<<speedB;
+	printf("  \r");
+	fflush(stdout);
 	
 	motorControl(0,speedA);
 	motorControl(1,speedB);				
