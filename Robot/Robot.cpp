@@ -181,7 +181,8 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	Controller= _Controller;
 	IoModule = _IoModule;
 	
-
+	motorControl(0,100);
+	motorControl(1,-100);
 	
 	while(1)
 	{
@@ -197,9 +198,6 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 {
 	Controller= _Controller;
 	IoModule = _IoModule;
-
-	motorControl(0,100);
-	motorControl(1,-100);
 
 	while(1)
 	{
