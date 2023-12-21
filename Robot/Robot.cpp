@@ -108,7 +108,7 @@ void Robot::drive()
 		}	
 	
 	}
-	else if(y<=10000 && y > -10000)
+	else if(y<=10000 && y > -20000)
 	{
 		if(x<=5000 && x>=-5000)
 		{
@@ -146,26 +146,18 @@ void Robot::drive()
 			speedA=0;								
 		} 		
 	}
-	else if( y<=-10000 && y > -25000)
+	else if( y<=-20000 && y > -25000)
 	{
 		speedA= 80;
 		speedB= 80;	
 		
-		if(x>15000)
+		if(x>10000)
 		{
 			speedA += 20;
-		}	
-		else if(x > 10000)
-		{
-			speedA += 15;
-		}	
-		else if(x<-15000)
-		{
-			speedB += 20;
-		}					
+		}				
 		else if(x < -10000)
 		{
-			speedB += 15;
+			speedB += 20;
 		}
 		speedB *= -1;	
 		speedA *= -1;		
@@ -187,6 +179,7 @@ void Robot::drive()
 		}		
 		speedB *= -1;	
 		speedA *= -1;				
+		
 	}
 	
 	std::cout<<"x:"<<x<<" y:"<<y<<" Speed:"<<speedA <<", "<<speedB;
