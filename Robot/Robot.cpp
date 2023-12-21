@@ -64,11 +64,12 @@ void Robot::motorControl(int motor, int speed)
 
 void Robot::drive()
 {
+	int speedA=0;
+	int speedB=0;
 	getJoystickState(&x, &y);
 	//but = getButtonState();
 	y *= -1;
-	int speedA=0;
-	int speedB=0;
+
 	if(y>25000)
 	{
 		speedA=100;
@@ -108,7 +109,7 @@ void Robot::drive()
 		}	
 	
 	}
-	else if(y<=10000 && y > -31000)
+	else// if(y<=10000 && y > -31000)
 	{
 		if(x<=5000 && x>=-5000)
 		{
@@ -146,24 +147,24 @@ void Robot::drive()
 			speedA=0;								
 		} 		
 	}
-	else
-	{
-		speedA=100;
-		speedB=100;												
+	//else
+	//{
+	//	speedA=100;
+	//	speedB=100;												
 		
-		if(x>=8000)
-		{
-			speedA=100;
-			speedB=80;						
-		}
-		else if(x<-8000)
-		{
-			speedA=80;
-			speedB=100;									
-		}		
-		speedB *= -1;	
-		speedA *= -1;				
-	}
+	//	if(x>=8000)
+	//	{
+	//		speedA=100;
+	//		speedB=80;						
+	//	}
+	//	else if(x<-8000)
+	//	{
+	//		speedA=80;
+	//		speedB=100;									
+	//	}		
+	//	speedB *= -1;	
+	//	speedA *= -1;				
+	//}
 	
 	std::cout<<"x:"<<x<<" y:"<<y<<" Speed:"<<speedA <<", "<<speedB;
 	printf("  \r");
@@ -180,6 +181,8 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	Controller= _Controller;
 	IoModule = _IoModule;
 	
+
+	
 	while(1)
 	{
 		drive();	
@@ -194,7 +197,10 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 {
 	Controller= _Controller;
 	IoModule = _IoModule;
-	
+
+	motorControl(0,100);
+	motorControl(1,-100);
+
 	while(1)
 	{
 		drive();	
