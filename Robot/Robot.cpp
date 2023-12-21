@@ -84,8 +84,6 @@ void Robot::drive()
 			speedA=90;
 			speedB=100;									
 		}
-		else
-		{}
 	}
 	else if( y>10000 && y<=25000)
 	{
@@ -110,7 +108,7 @@ void Robot::drive()
 		}	
 	
 	}
-	else 
+	else if(y<=10000 && y > -10000)
 	{
 		if(x<=5000 && x>=-5000)
 		{
@@ -148,6 +146,48 @@ void Robot::drive()
 			speedA=0;								
 		} 		
 	}
+	else if( y<=-10000 && y > -25000)
+	{
+		speedA= 80;
+		speedB= 80;	
+		
+		if(x>15000)
+		{
+			speedA += 20;
+		}	
+		else if(x > 10000)
+		{
+			speedA += 15;
+		}	
+		else if(x<-15000)
+		{
+			speedB += 20;
+		}					
+		else if(x < -10000)
+		{
+			speedB += 15;
+		}
+		speedB *= -1;	
+		speedA *= -1;		
+	}
+	else
+	{
+		speedA=100;
+		speedB=100;												
+		
+		if(x>=8000)
+		{
+			speedA=100;
+			speedB=90;						
+		}
+		else if(x<-8000)
+		{
+			speedA=90;
+			speedB=100;									
+		}		
+		speedB *= -1;	
+		speedA *= -1;				
+	}
 	
 	std::cout<<"x:"<<x<<" y:"<<y<<" Speed:"<<speedA <<", "<<speedB;
 	printf("  \r");
@@ -167,7 +207,6 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	while(1)
 	{
 		drive();	
-//		Sleep(1);
 	}
 }
 
