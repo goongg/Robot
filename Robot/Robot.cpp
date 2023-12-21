@@ -64,12 +64,12 @@ void Robot::motorControl(int motor, int speed)
 
 void Robot::drive()
 {
-	int speedA=0;
-	int speedB=0;
+	
 	getJoystickState(&x, &y);
 	//but = getButtonState();
 	y *= -1;
-
+	int speedA=0;
+	int speedB=0;
 	if(y>25000)
 	{
 		speedA=100;
@@ -181,9 +181,6 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 	Controller= _Controller;
 	IoModule = _IoModule;
 	
-	motorControl(0,100);
-	motorControl(1,-100);
-	
 	while(1)
 	{
 		drive();	
@@ -198,7 +195,7 @@ Robot::Robot(iController* _Controller, iIOPlatform* _IoModule)
 {
 	Controller= _Controller;
 	IoModule = _IoModule;
-
+	
 	while(1)
 	{
 		drive();	
