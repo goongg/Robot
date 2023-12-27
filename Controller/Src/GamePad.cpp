@@ -44,7 +44,6 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 #include <unistd.h>
 
 GamePad::GamePad() {
-static int boot_cnt=0;
 	while(1)
 	{		
 		num_of_axis=0;
