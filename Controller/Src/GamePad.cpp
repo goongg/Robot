@@ -44,7 +44,8 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 #include <unistd.h>
 
 GamePad::GamePad() {
-	
+while(1)
+{
 	num_of_axis=0;
 	num_of_buttons=0;
 		
@@ -53,7 +54,7 @@ GamePad::GamePad() {
 		usleep(100000);
 	}
 	
-	printf( "\n==Success open joystick!==\n" );
+	printf( "\n==Coneect open joystick!==\n" );
 	
 	ioctl( joy_fd, JSIOCGAXES, &num_of_axis );
 	ioctl( joy_fd, JSIOCGBUTTONS, &num_of_buttons );
@@ -64,35 +65,22 @@ GamePad::GamePad() {
 
 	if(num_of_axis[0]=='N')
 	{
-		num_of_axis=0;
-		num_of_buttons=0;
-			
-		while( ( joy_fd = open( JOY_DEV , O_RDONLY))  == -1){
-			printf( "Couldn't open joystick\n" );
-			usleep(100000);
-		}
+		printf( "Error Ouccred Retry\n" );
+		usleep(100000);		
+		continue;		
+	}
+
+	printf( "\n==Success open joystick!==\n" );
 		
-		printf( "\n==Success open joystick!==\n" );
-		
-		ioctl( joy_fd, JSIOCGAXES, &num_of_axis );
-		ioctl( joy_fd, JSIOCGBUTTONS, &num_of_buttons );
-		ioctl( joy_fd, JSIOCGNAME(80), &name_of_joystick );
+	printf("Joystick detected: %s\n\t%d axis\n\t%d buttons\n\n"
+		, name_of_joystick
+		, num_of_axis
+		, num_of_buttons );		
 	
-		axis = (int *) calloc( num_of_axis, sizeof( int ) );
-		button = (char *) calloc( num_of_buttons, sizeof( char ) );
-			
-		printf("Joystick detected: %s\n\t%d axis\n\t%d buttons\n\n"
-			, name_of_joystick
-			, num_of_axis
-			, num_of_buttons );		
-	}
-	else
-	{
-		printf("Joystick detected: %s\n\t%d axis\n\t%d buttons\n\n"
-			, name_of_joystick
-			, num_of_axis
-			, num_of_buttons );		
-	}
+	
+	
+		
+	
 }
 
 GamePad::~GamePad() {
