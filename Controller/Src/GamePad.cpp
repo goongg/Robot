@@ -64,7 +64,7 @@ GamePad::GamePad() {
 		axis = (int *) calloc( num_of_axis, sizeof( int ) );
 		button = (char *) calloc( num_of_buttons, sizeof( char ) );
 
-		if(num_of_axis[0]=='N')
+		if(name_of_joystick[0]=='N')
 		{
 			printf( "Error Ouccred Retry\n" );
 			usleep(100000);		
