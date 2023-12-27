@@ -22,7 +22,7 @@ class GamePad : public iController
 	    GamePad();
 	    ~GamePad();
 	    unsigned short getButtonState() override;
-	    void getJoystickState(int* posX, int* posY) override;    
+	    void getJoystickState(int* posX, int* posY, int* posR, int* posL) override;    
 	
 	private:
 	#ifdef _WIN32 // Windows

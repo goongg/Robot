@@ -44,9 +44,9 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 #include <unistd.h>
 
 GamePad::GamePad() {
-	
+static int boot_cnt=0;
 	while(1)
-	{
+	{		
 		num_of_axis=0;
 		num_of_buttons=0;
 			
@@ -114,7 +114,7 @@ unsigned short GamePad::getButtonState()
     return ret;
 }
 
-void GamePad::getJoystickState(int* posX, int* posY) {
+void GamePad::getJoystickState(int* posX, int* posY, int* posR, int* posL) {
 
     //for(int i =0; i<10; i++)
     //{
@@ -132,6 +132,10 @@ void GamePad::getJoystickState(int* posX, int* posY) {
 		fflush(stdout);		
 		*posX = axis[0];
 		*posY = axis[1];
+
+		*posL = axis[2];
+		*posR = axis[5];
+		
     //}
 
     return;

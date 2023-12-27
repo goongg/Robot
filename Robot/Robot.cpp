@@ -1,13 +1,14 @@
 #include "Robot.h"
 #include <iostream>
+#include <unistd.h>
 
 unsigned short Robot::getButtonState()
 {
 	return Controller->getButtonState();
 }
-void Robot::getJoystickState(int* posX, int* posY)
+void Robot::getJoystickState(int* posX, int* posY, int* posR, int* posL)
 {
-	Controller->getJoystickState(posX, posY);
+	Controller->getJoystickState(posX, posY, posR, posL);
 }
 void Robot::setGPIOValue(int pin, int value)
 {
@@ -59,18 +60,34 @@ void Robot::motorControl(int motor, int speed)
 	}		
 }
 
-	int x, y;
+	int x, y, r, l;
 	unsigned short but;
 
 void Robot::drive()
 {
 	
-	getJoystickState(&x, &y);
+	getJoystickState(&x, &y, &r, &l);
 	//but = getButtonState();
-	y *= -1;
+	
 	int speedA=0;
 	int speedB=0;
-	if(y>25000)
+	y *= -1;
+	if(r> 30000 && l< -30000)
+	{
+		speedA=100;
+		speedB=-100;
+	}
+	else if (r< -30000 && l> 30000)
+	{
+		speedA=-100;
+		speedB=100;
+	}
+	else if (r> 30000 && l> 30000)
+	{
+		speedA=-100;
+		speedB=-100;
+	}
+	else if(y>25000)
 	{
 		speedA=100;
 		speedB=100;												
@@ -171,7 +188,8 @@ void Robot::drive()
 	fflush(stdout);
 	
 	motorControl(0,speedA);
-	motorControl(1,speedB);				
+	motorControl(1,speedB);	
+	usleep(1);				
 }
 
 #ifdef _WIN32 // Windows

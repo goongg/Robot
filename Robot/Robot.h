@@ -14,7 +14,7 @@ class Robot
 				
 		/*Contoller*/
 		unsigned short getButtonState();
-		void getJoystickState(int* posX, int* posY);
+		void getJoystickState(int* posX, int* posY, int* posR, int* posL);
 
 		/*IoPaltform*/		
 		void setGPIOValue(int pin, int value);
