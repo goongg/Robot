@@ -183,7 +183,7 @@ void Robot::drive()
 	//	speedA *= -1;				
 	//}
 	
-	std::cout<<"x:"<<x<<" y:"<<y<<" Speed:"<<speedA <<", "<<speedB;
+	std::cout<<"x:"<<x<<" y:"<<y<<" r:"<<r<<" l:"<<l<<" Speed:"<<speedA <<", "<<speedB;
 	printf("  \r");
 	fflush(stdout);
 	
